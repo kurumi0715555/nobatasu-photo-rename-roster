@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="名簿（出席番号・名前）をもとに撮影写真を一括リネーム。名簿・写真データを外部送信せず、ブラウザ内で処理する教員向け無料ツール。">
+
+    <!-- SEO設定 -->
+    
+    
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="common/css/common.css">
+    <link rel="stylesheet" href="common/css/landscape-guard.css">
+    <link rel="stylesheet" href="css/photo-rename-roster.css">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="common/vendor/fontawesome/css/fontawesome.css">
+<link rel="stylesheet" href="common/vendor/fontawesome/css/solid.css">
+<title>個人写真一括リネーマー</title>
+<link rel="stylesheet" href="oss/standalone.css">
+<script defer src="oss/standalone.js"></script>
+</head>
+
+<body data-tablet-ok="true">
+    <!-- サイトラッパー -->
+    <div class="site-wrapper">
+        <!-- 左広告エリア -->
+        <aside class="ad-left"></aside>
+
+        <!-- メインコンテナ -->
+        <div class="container">
+            <!-- ヘッダー -->
+            <header>
+                <h1><i class="fas fa-images"></i> 個人写真一括リネーマー</h1>
+                <p class="subtitle">名簿をもとに撮影写真を一括リネーム</p>
+            </header>
+
+            <!-- メインコンテンツ -->
+            <main>
+
+                <!-- ブラウザ注意 -->
+                <div class="browser-notice">
+                    <i class="fas fa-globe"></i>
+                    <span><strong>Google Chrome</strong> または <strong>Microsoft Edge</strong> で使用してください。Safari / Firefox では動作しません。</span>
+                </div>
+
+                <!-- STEP 1: 基本設定 -->
+                <section class="step-section" id="step1">
+                    <h3><span class="step-badge">STEP 1</span> <i class="fas fa-cog"></i> 基本設定</h3>
+                    <div class="settings-grid">
+                        <div class="input-group">
+                            <label for="grade">学年</label>
+                            <input type="text" id="grade" value="1" placeholder="例：1">
+                        </div>
+                        <div class="input-group">
+                            <label for="classNum">学級</label>
+                            <input type="text" id="classNum" value="1" placeholder="例：2">
+                        </div>
+                        <div class="input-group">
+                            <label for="startNum">開始番号</label>
+                            <input type="number" id="startNum" value="1" min="1" max="99">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 2: 名前リスト -->
+                <section class="step-section" id="step2">
+                    <h3><span class="step-badge">STEP 2</span> <i class="fas fa-list-ol"></i> 名前リスト</h3>
+                    <p class="step-desc">Excelから名前をコピーして貼り付けてください（1行に1名）</p>
+                    <div class="name-input-area">
+                        <label for="nameInput" class="visually-hidden">名前リスト（1行に1名）</label>
+                        <textarea id="nameInput" placeholder="山田太郎&#10;田中花子&#10;鈴木一郎&#10;..." rows="8"></textarea>
+                        <div class="name-list-preview" id="nameListPreview">
+                            <p class="placeholder-text">名前を入力すると一覧が表示されます</p>
+                        </div>
+                    </div>
+                    <div class="count-label" id="nameCount" role="status" aria-live="polite" aria-atomic="true"></div>
+                </section>
+
+                <div class="alert alert-error" id="validationMessage" role="alert" aria-atomic="true" tabindex="-1" hidden></div>
+
+                <!-- STEP 3: 写真フォルダ選択 -->
+                <section class="step-section" id="step3">
+                    <h3><span class="step-badge">STEP 3</span> <i class="fas fa-folder-open"></i> 写真フォルダ選択</h3>
+                    <p class="step-desc">写真が入っているフォルダを選択してください</p>
+                    <button type="button" class="btn btn-primary" id="selectFolderBtn">
+                        <i class="fas fa-folder-open"></i> フォルダを選択
+                    </button>
+                    <div class="folder-info" id="folderInfo" role="status" aria-live="polite" aria-atomic="true"></div>
+                    <button type="button" class="btn btn-secondary recovery-button" id="recoverInterruptedBtn" hidden>
+                        <i class="fas fa-shield-halved"></i> 中断ファイルを安全に片付ける
+                    </button>
+                    <div class="recovery-status" id="recoveryStatus" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+                    <div class="photo-grid" id="photoGrid"></div>
+                    <div class="count-label" id="photoCount" role="status" aria-live="polite" aria-atomic="true"></div>
+                </section>
+
+                <!-- STEP 4: ペア確認・調整 -->
+                <section class="step-section" id="step4" style="display:none;">
+                    <h3><span class="step-badge">STEP 4</span> <i class="fas fa-check-double"></i> ペア確認・調整</h3>
+                    <div class="warning-box" id="warningBox" role="alert" aria-atomic="true" style="display:none;"></div>
+                    <div class="pair-list" id="pairList"></div>
+                    <div class="action-bar">
+                        <button type="button" class="btn btn-primary btn-large" id="renameBtn" disabled>
+                            <i class="fas fa-pen"></i> リネーム実行
+                        </button>
+                    </div>
+                </section>
+
+                <!-- 結果 -->
+                <section class="step-section" id="resultSection" style="display:none;">
+                    <h3><span class="step-badge step-badge-done" id="resultBadge"><i class="fas fa-check"></i> 完了</span> <i class="fas fa-circle-check" id="resultTitleIcon"></i> リネーム結果</h3>
+                    <div class="result-list" id="resultList" role="status" aria-live="polite" aria-atomic="true"></div>
+                </section>
+
+                <!-- 使い方 -->
+                <div class="instructions">
+                    <h3><i class="fas fa-info-circle"></i> 使い方</h3>
+                    <ol>
+                        <li><strong>基本設定</strong>：学年・学級・開始番号を設定します。</li>
+                        <li><strong>名前リスト</strong>：Excelの名簿から名前の列をコピーし、テキストエリアに貼り付けます（1行に1名）。</li>
+                        <li><strong>フォルダ選択</strong>：「フォルダを選択」ボタンで写真フォルダを選びます。ブラウザからアクセス許可を求められたら「許可」してください。</li>
+                        <li><strong>ペア確認・調整</strong>：写真と名前の対応を確認します。
+                            <ul>
+                                <li><i class="fas fa-chevron-up"></i><i class="fas fa-chevron-down"></i> 写真の順番を入れ替え</li>
+                                <li><i class="fas fa-user-slash"></i> 欠席の生徒をスキップ</li>
+                                <li>STEP 3のサムネイルをドラッグ&ドロップで並び替え</li>
+                            </ul>
+                        </li>
+                        <li><strong>リネーム実行</strong>：確認後「リネーム実行」を押すとファイル名が変更されます。<strong>この操作は元に戻せません。</strong></li>
+                    </ol>
+                    <p class="note"><i class="fas fa-file-signature"></i> <strong>ファイル名の形式</strong>：<code>学年-学級-番号_名前.拡張子</code>（例：<code>3-2-01_山田太郎.jpeg</code>）</p>
+                    <p class="note"><i class="fas fa-shield-halved"></i> <strong>安全性</strong>：名簿・写真データは外部に送信しません。画面表示用のCSS・フォントを取得するため、外部サービス（jsDelivr）への通信は発生します。</p>
+                    <p class="note"><i class="fas fa-folder-closed"></i> <strong>操作中の注意</strong>：リネームが終わるまで、Finder・同期アプリ・別タブから選択フォルダ内を変更しないでください。</p>
+                </div>
+
+            </main>
+
+            <!-- 水平広告エリア -->
+            <div class="ad-horizontal">
+                <div class="ad-label">広告</div>
+                <div class="ad-horizontal-content">
+                    <i class="fas fa-rectangle-ad"></i>
+                    <p>728×90 レクタングル（大）バナー広告</p>
+                </div>
+            </div>
+
+            <!-- フッター -->
+            <footer></footer>
+        </div>
+
+        <!-- 右広告エリア -->
+        <aside class="ad-right"></aside>
+    </div>
+
+    <!-- 確認ダイアログ -->
+    <div class="modal-overlay" id="confirmModal" style="display:none;">
+        <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle" aria-describedby="confirmMessage" tabindex="-1">
+            <h3 id="confirmModalTitle"><i class="fas fa-exclamation-triangle"></i> リネーム確認</h3>
+            <p id="confirmMessage"></p>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="confirmCancel">キャンセル</button>
+                <button type="button" class="btn btn-primary" id="confirmOk">実行する</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    
+    
+    
+    
+    
+    <script type="module" src="dist/photo-rename-roster.js"></script>
+    <script src="common/js/landscape-guard.js"></script>
+</body>
+</html>

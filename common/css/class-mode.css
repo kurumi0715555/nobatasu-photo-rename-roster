@@ -1,0 +1,178 @@
+/* 授業モード: 教室へ見せる操作・結果に表示を集中させる */
+.class-mode-toggle {
+    position: fixed;
+    top: calc(var(--spacing-md) + env(safe-area-inset-top, 0px));
+    right: calc(var(--spacing-md) + env(safe-area-inset-right, 0px));
+    z-index: 9998;
+    min-height: 44px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid rgba(0, 96, 100, 0.24);
+    border-radius: var(--border-radius-pill);
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--primary-color-deep);
+    box-shadow: var(--shadow-medium);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    font: inherit;
+    font-size: var(--fs-sub);
+    font-weight: var(--fw-bold);
+    line-height: 1.2;
+    transition: var(--transition-smooth);
+}
+
+@media (hover: hover) {
+    .class-mode-toggle:hover {
+        border-color: var(--primary-color);
+        background: var(--surface-soft);
+        transform: translateY(var(--hover-lift-button));
+        box-shadow: var(--shadow-large);
+    }
+}
+
+.class-mode-toggle:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring), var(--shadow-medium);
+}
+
+.class-mode-toggle:active {
+    transform: translateY(1px);
+}
+
+.class-mode-toggle.active {
+    border-color: var(--primary-color-deep);
+    background: var(--primary-color-deep);
+    color: var(--white);
+}
+
+.class-mode-toggle i {
+    font-size: 1.05em;
+}
+
+body.fullscreen-mode .class-mode-toggle {
+    display: none;
+}
+
+body.class-mode-active {
+    padding: var(--spacing-sm);
+}
+
+body.class-mode-active .site-wrapper {
+    max-width: none;
+    gap: 0;
+}
+
+body.class-mode-active .container {
+    width: 100%;
+    max-width: none !important;
+    min-height: 0;
+}
+
+body.class-mode-active header,
+body.class-mode-active footer,
+body.class-mode-active .tool-shortcuts,
+body.class-mode-active .ad-left,
+body.class-mode-active .ad-right,
+body.class-mode-active .ad-horizontal,
+body.class-mode-active main .instructions,
+body.class-mode-active main > .related-tools-section,
+body.class-mode-active main > .more-tools-section,
+body.class-mode-active main .no-print:has(> .text-link) {
+    display: none !important;
+}
+
+body.class-mode-active main {
+    min-height: calc(100vh - (var(--spacing-sm) * 2));
+    padding: 64px clamp(var(--spacing-md), 2vw, var(--spacing-xl)) var(--spacing-xl);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: none;
+}
+
+.class-mode-notification {
+    position: fixed;
+    top: calc(64px + env(safe-area-inset-top, 0px));
+    right: calc(var(--spacing-md) + env(safe-area-inset-right, 0px));
+    z-index: 10000;
+    max-width: min(360px, calc(100vw - (var(--spacing-xl) * 2)));
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid rgba(0, 96, 100, 0.22);
+    border-radius: var(--border-radius);
+    background: var(--surface-color);
+    color: var(--text-color);
+    box-shadow: var(--shadow-large);
+    font-size: var(--fs-sub);
+    font-weight: var(--fw-semibold);
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    pointer-events: none;
+}
+
+.class-mode-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media screen and (max-width: 600px) {
+    .class-mode-toggle {
+        top: calc(var(--spacing-sm) + env(safe-area-inset-top, 0px));
+        right: calc(var(--spacing-sm) + env(safe-area-inset-right, 0px));
+    }
+
+    .class-mode-toggle span {
+        max-width: 8em;
+    }
+
+    body.class-mode-active {
+        padding: 0;
+    }
+
+    body.class-mode-active main {
+        min-height: 100vh;
+        padding: 62px var(--spacing-md) var(--spacing-lg);
+        border: 0;
+        border-radius: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .class-mode-toggle,
+    .class-mode-notification {
+        transition: none;
+    }
+
+    .class-mode-toggle:hover,
+    .class-mode-toggle:active,
+    .class-mode-notification {
+        transform: none;
+    }
+}
+
+@media print {
+    .class-mode-toggle,
+    .class-mode-notification {
+        display: none !important;
+    }
+
+    /* C-1修正（2026-09-03）: 授業モード(screen専用)のレイアウト上書きが
+       @media print に無条件で漏れ、main の min-height: calc(100vh - ...) が
+       印刷ページ1枚分の高さを確保してしまうため、印刷ページ数が1→2枚に
+       増える回帰があった（94dbc32で新設）。印刷時はscreen用の上書きを
+       解除し、各ツール固有CSSの通常の印刷スタイルへ委ねる。 */
+    body.class-mode-active {
+        padding: 0 !important;
+    }
+
+    body.class-mode-active main {
+        min-height: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+}

@@ -1,0 +1,875 @@
+/* 共通コンポーネント - 全ツールで再利用可能 */
+
+/* ============================================
+   ボタン
+============================================ */
+.btn {
+    padding: 12px 24px;
+    min-height: 44px;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    line-height: 1.2;
+    box-shadow: var(--shadow-small);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.34) 38%, transparent 62%);
+    transform: translateX(-115%);
+    transition: transform 0.45s ease;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.34), transparent 46%);
+    opacity: 0;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    transform: scale(0.92);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.btn i {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.22s ease;
+}
+
+.btn:hover::before {
+    transform: translateX(115%);
+}
+
+.btn:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.btn:hover i {
+    transform: translateX(2px) scale(1.06);
+}
+
+.btn-primary {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 42%),
+        linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-color-deep) 0%, var(--primary-color) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 96, 100, 0.26);
+}
+
+.btn-secondary {
+    background: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--accent-color);
+    box-shadow: inset 0 0 0 0 rgba(0, 96, 100, 0), var(--shadow-small);
+}
+
+.btn-secondary:hover {
+    background: var(--surface-soft);
+    border-color: rgba(0, 96, 100, 0.32);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: inset 0 0 0 2px rgba(0, 96, 100, 0.18), var(--shadow-medium);
+}
+
+.btn-success {
+    background: var(--success-color);
+    color: var(--white);
+}
+
+.btn-success:hover {
+    background: #257A4C;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: var(--danger-color);
+    color: var(--white);
+}
+
+.btn-danger:hover {
+    background: #B63E39;
+    transform: translateY(-2px);
+}
+
+.btn-warning {
+    background: var(--warning-color);
+    color: var(--white);
+}
+
+.btn-warning:hover {
+    background: #B86105;
+    transform: translateY(-2px);
+}
+
+.btn-info {
+    background: var(--info-color);
+    color: var(--white);
+}
+
+.btn-info:hover {
+    background: #007C8D;
+    transform: translateY(-2px);
+}
+
+.btn:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring), var(--shadow-small);
+}
+
+.btn:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 1px 4px rgba(13, 44, 46, 0.12);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.62;
+    transform: none;
+    box-shadow: none;
+    animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn,
+    .btn::before,
+    .btn::after,
+    .btn i,
+    .spinner,
+    .spinner::before,
+    .spinner::after,
+    .loading-dots span {
+        transition: none;
+        animation: none;
+    }
+}
+
+.btn-small {
+    padding: 10px 16px;
+    font-size: 0.9em;
+}
+
+.btn-large {
+    padding: 15px 30px;
+    font-size: 1.1em;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* ============================================
+   STEPセクション（手順UI）
+============================================ */
+.step-section {
+    background:
+        linear-gradient(90deg, rgba(242, 165, 65, 0.16), transparent 34%),
+        linear-gradient(180deg, var(--surface-color), var(--surface-soft));
+    border: 1px solid var(--border-color);
+    border-top: 4px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    overflow: hidden;
+}
+
+.step-section::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 46px;
+    height: 8px;
+    background: repeating-linear-gradient(90deg, rgba(0, 96, 100, 0.18) 0 8px, transparent 8px 13px);
+    border-radius: var(--border-radius-pill);
+}
+
+.section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0 0 var(--spacing-md) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.step-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-right: 8px;
+    letter-spacing: 0;
+}
+
+.step-badge-done {
+    background: var(--success-color);
+}
+
+.step-desc {
+    font-size: 0.95rem;
+    color: var(--gray-darkest);
+    margin: 0 0 var(--spacing-sm) 0;
+    line-height: 1.6;
+}
+
+/* ============================================
+   ヒント・注釈
+============================================ */
+.hint {
+    font-size: 0.95rem;
+    color: var(--gray-darkest);
+    margin: 0 0 var(--spacing-sm) 0;
+    line-height: 1.6;
+    padding: 10px 12px;
+    background:
+        linear-gradient(90deg, rgba(0, 143, 161, 0.12), transparent 45%),
+        var(--info-tint);
+    border: 1px solid rgba(0, 143, 161, 0.18);
+    border-radius: var(--border-radius-small);
+}
+
+.hint i {
+    color: var(--info-color);
+    margin-right: 4px;
+}
+
+.hint strong {
+    color: var(--gray-darkest);
+}
+
+.note {
+    font-size: 0.95rem;
+    padding: var(--spacing-md);
+    background:
+        linear-gradient(90deg, rgba(242, 165, 65, 0.14), transparent 45%),
+        var(--surface-warm);
+    border-left: 4px solid var(--primary-color);
+    border-radius: var(--border-radius-small);
+    color: var(--gray-darkest);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.note i {
+    color: var(--warning-color);
+    margin-right: 4px;
+}
+
+/* ============================================
+   使い方セクション
+============================================ */
+.instructions {
+    background:
+        linear-gradient(rgba(0, 96, 100, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 96, 100, 0.03) 1px, transparent 1px),
+        linear-gradient(180deg, var(--surface-soft), var(--surface-color));
+    background-size: 24px 24px, 24px 24px, auto;
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-large);
+    border: 1px solid var(--border-color);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-small);
+    position: relative;
+    overflow: hidden;
+}
+
+.instructions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--warm-accent-color), var(--secondary-color));
+}
+
+.instructions h3 {
+    font-size: 1.2em;
+    color: var(--gray-darkest);
+    margin: 0 0 var(--spacing-md) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.instructions h3 i {
+    color: var(--primary-color);
+}
+
+.instructions ol {
+    margin: 0 0 var(--spacing-md) var(--spacing-xl);
+    line-height: 1.8;
+    padding: 0;
+}
+
+.instructions li {
+    margin-bottom: var(--spacing-sm);
+    color: var(--gray-darkest);
+}
+
+.instructions li strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.instructions .note {
+    margin-top: var(--spacing-md);
+}
+
+/* ============================================
+   クイックガイド（ページ上部の3ステップ図解）
+============================================ */
+.quick-guide {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.quick-guide-step {
+    flex: 1;
+    min-width: 180px;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-top: 3px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    box-shadow: inset 0 0 0 0 rgba(0, 96, 100, 0), var(--shadow-small);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+.quick-guide-step::after {
+    content: '';
+    position: absolute;
+    right: -12px;
+    bottom: -12px;
+    width: 54px;
+    height: 54px;
+    background:
+        linear-gradient(135deg, rgba(0, 96, 100, 0.1), rgba(242, 165, 65, 0.16));
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.quick-guide-step:hover {
+    border-color: rgba(0, 96, 100, 0.32);
+    box-shadow: inset 0 0 0 2px rgba(0, 96, 100, 0.14), var(--shadow-medium);
+    transform: translateY(-2px);
+}
+
+.quick-guide-num {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95em;
+}
+
+.quick-guide-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.quick-guide-title {
+    font-weight: 700;
+    color: var(--gray-darkest);
+    margin-bottom: 2px;
+    font-size: 0.95em;
+}
+
+.quick-guide-desc {
+    font-size: 0.85em;
+    color: var(--gray-darker);
+    line-height: 1.5;
+}
+
+/* ============================================
+   入力フォーム
+============================================ */
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--gray-darkest);
+    font-size: 0.95em;
+}
+
+.input-group label i {
+    margin-right: var(--spacing-xs);
+    color: var(--primary-color);
+}
+
+.input-group textarea,
+.input-group input[type="text"],
+.input-group input[type="number"],
+.input-group input[type="email"],
+.input-group input[type="password"],
+.input-group input[type="tel"],
+.input-group input[type="url"],
+.input-group input[type="date"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--gray);
+    border-radius: var(--border-radius);
+    font-size: 0.95em;
+    transition: var(--transition-smooth);
+    background: var(--surface-color);
+    color: var(--gray-darkest);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.input-group textarea,
+.input-group input[type="text"],
+.input-group input[type="number"] {
+    font-family: var(--font-family-mono);
+}
+
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+    color: var(--gray-dark);
+    opacity: 0.78;
+}
+
+.input-group textarea:focus,
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: var(--focus-ring);
+}
+
+.input-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.optional {
+    font-size: 0.85em;
+    font-weight: normal;
+    color: var(--gray-dark);
+    margin-left: var(--spacing-xs);
+}
+
+.required {
+    font-size: 0.85em;
+    font-weight: normal;
+    color: var(--danger-color);
+    margin-left: var(--spacing-xs);
+}
+
+.help-text {
+    display: block;
+    margin-top: var(--spacing-xs);
+    font-size: 0.85em;
+    color: #888;
+}
+
+.select-input {
+    width: 100%;
+    min-height: 44px;
+    padding: 12px 14px;
+    border: 1px solid var(--gray);
+    border-radius: var(--border-radius);
+    font-size: 0.95em;
+    background: var(--surface-color);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    color: var(--gray-darkest);
+}
+
+.select-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: var(--focus-ring);
+}
+
+/* ============================================
+   カード
+============================================ */
+.card {
+    background:
+        linear-gradient(180deg, rgba(0, 96, 100, 0.035), transparent 28%),
+        var(--surface-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-medium);
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--primary-color), var(--warm-accent-color));
+}
+
+.card-header {
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card-header h2,
+.card-header h3 {
+    margin: 0;
+    color: var(--gray-darkest);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.card-header i {
+    color: var(--primary-color);
+}
+
+.card-body {
+    color: var(--gray-darkest);
+}
+
+.card-footer {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--gray-light);
+}
+
+/* ============================================
+   テーブル
+============================================ */
+.table-container {
+    overflow-x: auto;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-small);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+}
+
+thead {
+    background: linear-gradient(135deg, var(--primary-color-deep), var(--primary-color));
+    color: var(--white);
+    font-weight: 600;
+}
+
+thead th {
+    padding: var(--spacing-md);
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--gray-light);
+    transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+    background: var(--gray-lighter);
+}
+
+tbody td {
+    padding: 12px var(--spacing-md);
+}
+
+/* ============================================
+   アラート・メッセージ
+============================================ */
+.alert {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    border: 1px solid transparent;
+}
+
+.alert i {
+    font-size: 1.2em;
+}
+
+.alert-success {
+    background: var(--success-tint);
+    border-left: 4px solid var(--success-color);
+    color: #1F6840;
+}
+
+.alert-error {
+    background: var(--danger-tint);
+    border-left: 4px solid var(--danger-color);
+    color: #A33631;
+}
+
+.alert-warning {
+    background: var(--warning-tint);
+    border-left: 4px solid var(--warning-color);
+    color: #A95005;
+}
+
+.alert-info {
+    background: var(--info-tint);
+    border-left: 4px solid var(--info-color);
+    color: #006F7D;
+}
+
+/* ============================================
+   バッジ
+============================================ */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.badge-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+}
+
+.badge-success {
+    background: var(--success-color);
+    color: var(--white);
+}
+
+.badge-danger {
+    background: var(--danger-color);
+    color: var(--white);
+}
+
+.badge-warning {
+    background: var(--warning-color);
+    color: var(--white);
+}
+
+.badge-info {
+    background: var(--info-color);
+    color: var(--white);
+}
+
+.badge-secondary {
+    background: var(--surface-soft);
+    color: var(--gray-darker);
+    border: 1px solid var(--border-color);
+}
+
+/* ============================================
+   プログレスバー
+============================================ */
+.progress {
+    width: 100%;
+    height: 20px;
+    background: var(--gray-light);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.progress-bar-success {
+    background: var(--success-color);
+}
+
+.progress-bar-warning {
+    background: var(--warning-color);
+}
+
+.progress-bar-danger {
+    background: var(--danger-color);
+}
+
+/* ============================================
+   ローディングスピナー
+============================================ */
+.spinner {
+    display: inline-block;
+    --spinner-dot-size: 10px;
+    --spinner-dot-gap: 16px;
+    width: var(--spinner-dot-size);
+    height: var(--spinner-dot-size);
+    margin: 0 var(--spinner-dot-gap);
+    border: 0;
+    border-radius: 50%;
+    background: var(--primary-color);
+    vertical-align: middle;
+    position: relative;
+    animation: loadingDotBounce 0.68s ease-in-out infinite alternate;
+    animation-delay: 0.14s;
+}
+
+.spinner::before,
+.spinner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: var(--spinner-dot-size);
+    height: var(--spinner-dot-size);
+    border-radius: 50%;
+    background: var(--primary-color);
+    animation: loadingDotBounce 0.68s ease-in-out infinite alternate;
+}
+
+.spinner::before {
+    left: calc(var(--spinner-dot-gap) * -1);
+}
+
+.spinner::after {
+    right: calc(var(--spinner-dot-gap) * -1);
+    animation-delay: 0.28s;
+}
+
+.spinner-small {
+    --spinner-dot-size: 7px;
+    --spinner-dot-gap: 12px;
+}
+
+.spinner-large {
+    --spinner-dot-size: 14px;
+    --spinner-dot-gap: 22px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes loadingDotBounce {
+    from {
+        transform: translateY(0);
+        opacity: 0.65;
+    }
+    to {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+}
+
+.loading-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.loading-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    animation: loadingDotBounce 0.68s ease-in-out infinite alternate;
+}
+
+.loading-dots span:nth-child(2) {
+    animation-delay: 0.14s;
+}
+
+.loading-dots span:nth-child(3) {
+    animation-delay: 0.28s;
+}
+
+/* ============================================
+   グリッドシステム
+============================================ */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 calc(var(--spacing-sm) * -1);
+}
+
+.col {
+    flex: 1;
+    padding: 0 var(--spacing-sm);
+    min-width: 0;
+}
+
+.col-auto {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+.col-1 { flex: 0 0 8.333%; max-width: 8.333%; }
+.col-2 { flex: 0 0 16.666%; max-width: 16.666%; }
+.col-3 { flex: 0 0 25%; max-width: 25%; }
+.col-4 { flex: 0 0 33.333%; max-width: 33.333%; }
+.col-5 { flex: 0 0 41.666%; max-width: 41.666%; }
+.col-6 { flex: 0 0 50%; max-width: 50%; }
+.col-7 { flex: 0 0 58.333%; max-width: 58.333%; }
+.col-8 { flex: 0 0 66.666%; max-width: 66.666%; }
+.col-9 { flex: 0 0 75%; max-width: 75%; }
+.col-10 { flex: 0 0 83.333%; max-width: 83.333%; }
+.col-11 { flex: 0 0 91.666%; max-width: 91.666%; }
+.col-12 { flex: 0 0 100%; max-width: 100%; }
+
+/* レスポンシブ：スマホでは全幅 */
+@media screen and (max-width: 767px) {
+    .col,
+    .col-1, .col-2, .col-3, .col-4, .col-5, .col-6,
+    .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

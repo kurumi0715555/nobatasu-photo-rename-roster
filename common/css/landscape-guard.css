@@ -1,0 +1,79 @@
+.landscape-guard {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.88);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+}
+
+.landscape-guard__inner {
+    display: none;
+    padding: 40px 32px;
+    max-width: 320px;
+}
+
+.landscape-guard__phone,
+.landscape-guard__tablet {
+    display: none;
+}
+
+.landscape-guard .landscape-guard__inner {
+    display: block;
+}
+
+.landscape-guard i {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    color: #4dd0e1;
+}
+
+.landscape-guard__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.landscape-guard__sub {
+    font-size: 0.88rem;
+    opacity: 0.75;
+    line-height: 1.7;
+}
+
+/* スマホ（縦横問わず） */
+@media (max-width: 599px) {
+    .landscape-guard { display: flex; }
+    .landscape-guard .landscape-guard__phone { display: block; }
+    .landscape-guard .landscape-guard__tablet { display: none; }
+}
+
+/* タブレット縦向き。
+   ただし body[data-tablet-ok="true"] のツールでは出さない。
+   2026-08-17に全17ツールを iPad縦(768x1024) で実測したところ、横あふれは
+   1件も無く、レイアウトは成立していた。つまりこの警告は「壊れるから」では
+   なく「教室の前に投影して使う道具だから」出していたもの。
+   先生が机で作って印刷する系のツールは縦のまま使えるので、その用途の
+   ツールだけ属性を付けて解除している。スマホ(599px以下)の警告は全ツール維持 */
+@media (orientation: portrait) and (min-width: 600px) and (max-width: 1024px) {
+    .landscape-guard { display: flex; }
+    .landscape-guard .landscape-guard__phone { display: none; }
+    .landscape-guard .landscape-guard__tablet { display: block; }
+
+    body[data-tablet-ok="true"] .landscape-guard { display: none; }
+}
+
+@keyframes lg-rotate {
+    0%   { transform: rotate(0deg); }
+    40%  { transform: rotate(-90deg); }
+    60%  { transform: rotate(-90deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.landscape-guard__tablet i {
+    animation: lg-rotate 2.4s ease-in-out infinite;
+    display: inline-block;
+}

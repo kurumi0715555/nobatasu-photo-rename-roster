@@ -1,0 +1,20 @@
+/*
+ * Ads disabled by toggle_ads.js
+ */
+
+.ad-left,
+.ad-right,
+.ad-horizontal {
+    display: none !important;
+}
+
+.container {
+    min-height: 800px;
+}
+
+/* 広告を出さない間は、作業領域をPC幅いっぱいに近い状態で使う。 */
+@media screen and (min-width: 1024px) {
+    .container {
+        max-width: 1024px;
+    }
+}

@@ -1,0 +1,568 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   写真リネーム — ツール固有スタイル
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* step-section / step-badge / step-badge-done / step-desc は common/css/components.css で定義 */
+
+/* 見た目を変えず、フォームのラベルを支援技術へ伝える */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.step-section h3 {
+    font-size: 1.2em;
+    color: var(--gray-darkest);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.step-section h3 i {
+    color: var(--primary-color);
+}
+
+/* ━━ ブラウザ注意 ━━ */
+.browser-notice {
+    background: var(--info-tint);
+    border: 1.5px solid var(--info-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    font-size: 0.88rem;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.browser-notice i {
+    font-size: 1.1rem;
+    color: var(--info-color);
+}
+
+/* ━━ STEP 1: 基本設定 ━━ */
+.settings-grid {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.settings-grid .input-group {
+    min-width: 120px;
+    margin-bottom: 0;
+}
+
+.settings-grid select,
+.settings-grid input[type="number"] {
+    padding: 8px 14px;
+    border: 1.5px solid var(--gray);
+    border-radius: var(--border-radius-small);
+    font-family: inherit;
+    font-size: 0.95rem;
+    background: var(--white);
+    color: var(--text-color);
+    transition: border-color 0.2s;
+    min-width: 120px;
+}
+
+.settings-grid select:focus,
+.settings-grid input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* ━━ STEP 2: 名前リスト ━━ */
+.name-input-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+#nameInput {
+    padding: 14px;
+    border: 1.5px solid var(--gray);
+    border-radius: var(--border-radius-small);
+    font-family: inherit;
+    font-size: 0.92rem;
+    line-height: 1.8;
+    resize: vertical;
+    background: var(--white);
+    color: var(--text-color);
+    transition: border-color 0.2s;
+}
+
+#nameInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.name-list-preview {
+    background: var(--white);
+    border: 1.5px solid var(--gray);
+    border-radius: var(--border-radius-small);
+    padding: 14px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.placeholder-text {
+    color: var(--gray-dark);
+    font-size: 0.85rem;
+}
+
+.name-list-preview .name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.name-row .num {
+    background: var(--info-tint);
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 2px 8px;
+    border-radius: var(--border-radius-small);
+    min-width: 32px;
+    text-align: center;
+}
+
+.count-label {
+    margin-top: var(--spacing-sm);
+    font-size: 0.82rem;
+    color: var(--gray-darker);
+}
+
+#validationMessage {
+    margin: 0 0 var(--spacing-lg);
+}
+
+#validationMessage[hidden] {
+    display: none;
+}
+
+#validationMessage ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+.step-badge.step-badge-warning {
+    background: #A95005;
+    color: var(--white);
+}
+
+/* ━━ STEP 3: 写真選択 ━━ */
+.folder-info {
+    margin-top: var(--spacing-sm);
+    font-size: 0.85rem;
+    color: var(--gray-darker);
+}
+
+.recovery-button {
+    margin-top: var(--spacing-sm);
+}
+
+.recovery-button[hidden],
+.recovery-status[hidden] {
+    display: none;
+}
+
+.recovery-status {
+    margin-top: var(--spacing-sm);
+    padding: 8px 12px;
+    border-radius: var(--border-radius-small);
+    background: var(--success-tint);
+    color: #1F6840;
+    font-size: 0.85rem;
+}
+
+.recovery-status.error {
+    background: var(--danger-tint);
+    color: #A33631;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+    margin-top: var(--spacing-md);
+}
+
+.photo-thumb {
+    aspect-ratio: 1;
+    border-radius: var(--border-radius-small);
+    overflow: hidden;
+    border: 2px solid transparent;
+    cursor: grab;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-thumb .photo-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* 写真サムネ上の文字背景：写真の上で可読性を担保する特化値（残置） */
+    background: rgba(0, 0, 0, 0.65);
+    color: var(--white);
+    font-size: 0.65rem;
+    padding: 3px 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.photo-thumb.dragging {
+    opacity: 0.4;
+    border-color: var(--primary-color);
+}
+
+.photo-thumb.drag-over {
+    border-color: var(--info-color);
+    transform: scale(1.05);
+}
+
+.photo-thumb:focus-visible,
+.pair-action-btn:focus-visible {
+    outline: 3px solid var(--info-color);
+    outline-offset: 2px;
+}
+
+.photo-thumb[aria-disabled="true"] {
+    cursor: wait;
+}
+
+.photo-thumb.preview-failed img {
+    opacity: 0.25;
+}
+
+.preview-failed-label {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    padding: 4px 6px;
+    border-radius: var(--border-radius-small);
+    background: var(--danger-color);
+    color: var(--white);
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* ━━ STEP 4: ペア確認 ━━ */
+.warning-box {
+    background: var(--warning-tint);
+    border: 1.5px solid var(--warning-color);
+    border-radius: var(--border-radius-small);
+    padding: 12px 16px;
+    margin-bottom: var(--spacing-md);
+    font-size: 0.88rem;
+    color: #A95005;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.warning-box i {
+    font-size: 1.1rem;
+    color: #A95005;
+}
+
+.pair-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    /* 淡色面でも通常文字が WCAG AA のコントラストを満たす濃色 */
+    --warning-color: #A95005;
+    --danger-color: #A33631;
+}
+
+.pair-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--white);
+    border-radius: var(--border-radius-small);
+    border: 1.5px solid var(--gray);
+    transition: all 0.2s;
+}
+
+.pair-row.skipped {
+    border-style: dashed;
+}
+
+.pair-row.skipped .pair-thumb,
+.pair-row.skipped .pair-info {
+    opacity: 0.35;
+}
+
+.pair-row.unpaired-photo {
+    border-color: #A33631;
+}
+
+.pair-row .pair-thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--border-radius-small);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.pair-row .pair-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pair-thumb-empty {
+    background: var(--gray-lighter);
+    border: 1.5px dashed var(--gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.absent-mark {
+    font-size: 1.3rem;
+    color: var(--gray-dark);
+}
+
+.pair-row .pair-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.pair-row .pair-original {
+    font-size: 0.75rem;
+    color: var(--gray-darker);
+}
+
+.pair-row .pair-arrow {
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    margin: 0 2px;
+}
+
+.pair-row .pair-new-name {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text-color);
+    word-break: break-all;
+}
+
+.pair-new-name.skipped-name {
+    color: var(--gray-dark);
+    text-decoration: line-through;
+}
+
+.pair-original.absent-status {
+    color: #A95005;
+}
+
+.pair-original.missing-photo-status,
+.pair-new-name.unpaired-status {
+    color: #A33631;
+}
+
+.pair-row .pair-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+/* ペアアクションボタン */
+.pair-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 5px 10px;
+    border: 1px solid var(--gray);
+    border-radius: var(--border-radius-small);
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--white);
+    color: var(--gray-darker);
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.pair-action-btn:hover {
+    background: var(--gray-light);
+    color: var(--primary-color);
+}
+
+.pair-action-btn.btn-skip {
+    background: var(--warning-tint);
+    color: var(--warning-color);
+    border-color: var(--warning-color);
+}
+
+.pair-action-btn.btn-skip:hover {
+    /* warning 系の濃色派生（hover 強調）。Foundation に濃色派生 token が無いため固有値で残す。 */
+    background: #ffecb3;
+}
+
+.pair-action-btn.btn-skip.active {
+    background: #A95005;
+    border-color: #A95005;
+    color: var(--white);
+}
+
+.action-bar {
+    margin-top: var(--spacing-lg);
+    display: flex;
+    justify-content: center;
+}
+
+/* ━━ 結果 ━━ */
+.result-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-radius: var(--border-radius-small);
+    font-size: 0.88rem;
+}
+
+.result-item.success {
+    background: var(--success-tint);
+    color: #1F6840;
+}
+
+.result-item.error {
+    background: var(--danger-tint);
+    color: #A33631;
+}
+
+.result-item i {
+    font-size: 1rem;
+}
+
+/* ━━ 確認モーダル ━━ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    backdrop-filter: blur(3px);
+}
+
+.confirm-modal {
+    background: var(--white);
+    border-radius: var(--border-radius-large);
+    padding: var(--spacing-xl);
+    max-width: 440px;
+    width: 90%;
+    max-height: min(85vh, 640px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    box-shadow: var(--shadow-large);
+}
+
+.confirm-modal h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.confirm-modal h3 i {
+    color: var(--warning-color);
+}
+
+.confirm-modal p {
+    font-size: 0.9rem;
+    color: var(--gray-darker);
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.7;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* ━━ 使い方 ━��� */
+/* instructions の基本ブロック・h3・ol・li・li strong は common/css/components.css。以下は本ツール固有の入れ子リスト用追加 */
+.instructions li ul {
+    margin-top: var(--spacing-xs);
+    margin-left: var(--spacing-lg);
+    list-style: none;
+    padding: 0;
+}
+
+.instructions li ul li {
+    margin-bottom: 4px;
+    font-size: 0.9em;
+}
+
+.instructions li ul li i {
+    color: var(--primary-color);
+    font-size: 0.85em;
+    margin-right: 4px;
+}
+
+/* .note と .note i は common/css/components.css。以下は code 用の追加 */
+.instructions .note code {
+    background: rgba(0, 96, 100, 0.1);
+    color: var(--primary-color);
+    padding: 2px 7px;
+    border-radius: var(--border-radius-small);
+    font-size: 0.9em;
+}
+
+/* ━━ レスポンシブ ━━ */
+@media (max-width: 768px) {
+    .name-input-area {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-grid {
+        flex-direction: column;
+    }
+
+    .pair-row {
+        flex-wrap: wrap;
+    }
+
+    .pair-row .pair-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}

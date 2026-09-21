@@ -1,0 +1,6 @@
+/* Independent distribution: no official advertising, logos, or navigation. */
+.ad-left, .ad-right, .ad-horizontal, .ad-bottom, .ad-space { display: none !important; }
+.oss-source-link { position: fixed; right: 8px; bottom: 8px; z-index: 2147483647; display: inline-flex; align-items: center; min-height: 44px; padding: 8px 12px; color: #004d40; background: #fff; border: 1px solid #006064; border-radius: 8px; font: 14px/1.4 sans-serif; text-decoration: underline; }
+.oss-source-link:focus-visible { outline: 3px solid #ed8b00; outline-offset: 2px; }
+footer { padding-bottom: 64px; }
+@media print { .oss-source-link { display: none; } }

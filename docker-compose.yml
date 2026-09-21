@@ -1,0 +1,9 @@
+services:
+  web:
+    build:
+      context: .
+      target: web
+    ports:
+      - "127.0.0.1:8091:80"
+    security_opt:
+      - no-new-privileges:true

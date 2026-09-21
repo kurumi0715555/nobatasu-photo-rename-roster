@@ -1,0 +1,42 @@
+{
+  "package": "@fortawesome/fontawesome-free",
+  "version": "6.4.0",
+  "retrieved": "2026-09-21",
+  "files": [
+    {
+      "path": "css/fontawesome.css",
+      "url": "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/fontawesome.css",
+      "sha256": "259cc861f57c339d96a9306d2fce85b24f1c1b06416c8aab06ff98377f30693a",
+      "bytes": 113421,
+      "modified": false
+    },
+    {
+      "path": "css/solid.css",
+      "url": "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/solid.css",
+      "sha256": "1813655df25e8a40a3bcec57452199557f2f7bf69e500904f26c1f3f27771a9f",
+      "bytes": 625,
+      "modified": false
+    },
+    {
+      "path": "webfonts/fa-solid-900.woff2",
+      "url": "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/webfonts/fa-solid-900.woff2",
+      "sha256": "7152a6933ee3d690ec2af3d09da9d701723d16aa3410a6d80f28ff8866f3b880",
+      "bytes": 150124,
+      "modified": false
+    },
+    {
+      "path": "webfonts/fa-solid-900.ttf",
+      "url": "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/webfonts/fa-solid-900.ttf",
+      "sha256": "67a65763c7f80903d81603bbeb9049fc2bf28508479b83ed011fe24c71fa950a",
+      "bytes": 394628,
+      "modified": false
+    },
+    {
+      "path": "LICENSE.txt",
+      "url": "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/LICENSE.txt",
+      "sha256": "0aa8f86525273b2efa4f40f4272a188e187704252170e979dc06879adf68d43c",
+      "bytes": 7427,
+      "modified": false
+    }
+  ]
+}
