@@ -2,9 +2,25 @@
 
 ブラウザで動作する NOBATASU Tools 由来の独立配布版です。DB・アカウント・PHP処理は不要です。
 
-## 起動
+## 利用方法
+
+### すぐ使う
+
+[公式サイトで写真名簿リネームを使う](https://nobatasu.com/app/tools/photo-rename-roster/)
+
+公式サイトはブラウザだけで利用できます。通常利用ではDockerのインストールは不要です。
+
+### 自分のPCで動かす・改良する
+
+以下のローカル起動手順を使います。Dockerは任意で、Dockerなしでも起動できます。アプリによってはブラウザでHTMLファイルを直接開くと動作しないため、`localhost`のHTTPサーバー経由で開いてください。
+
+## ローカルで起動する
+
+### Dockerを使う
 
 Docker を使う場合は `docker compose up --build` を実行し、http://127.0.0.1:8091/ を開きます。ポートが使用中ならComposeの左側のポートを変更してください。
+
+### Dockerを使わない
 
 DockerなしではPython 3.10以上とNode.js 22を用意して実行します。
 
